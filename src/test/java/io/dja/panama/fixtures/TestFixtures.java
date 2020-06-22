@@ -1,20 +1,23 @@
 package io.dja.panama.fixtures;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.dja.panama.aggregator.ImmutablePocketItem;
 import io.dja.panama.aggregator.ImmutablePocketRequest;
 import io.dja.panama.aggregator.ImmutablePocketResponse;
+import io.dja.panama.aggregator.PocketItem;
 import io.dja.panama.aggregator.PocketRequest;
 import io.dja.panama.aggregator.PocketResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class TestFixtures {
     
-    public static PocketRequest POCKET_REQUEST =
+    public static ImmutablePocketRequest POCKET_REQUEST =
             buildPocketRequest("pocket-request.json");
-    public static PocketResponse POCKET_RESPONSE =
+    public static ImmutablePocketResponse POCKET_RESPONSE =
             buildPocketResponse("pocket-response.json");
     
     public static String RAW_RESPONSE_JSON = readFileToString("pocket-response.json");
@@ -24,10 +27,17 @@ public class TestFixtures {
    
     
     // TODO: make this generic somehow
-    private static PocketRequest buildPocketRequest(String fileName) {
-        PocketRequest pocketRequest = ImmutablePocketRequest.builder().build();
+    private static ImmutablePocketRequest buildPocketRequest(String fileName) {
+        // not ideal
+        ImmutablePocketRequest pocketRequest = ImmutablePocketRequest
+                .builder()
+                .accessToken("")
+                .consumerKey("")
+                .count(0)
+                .detailType("")
+                .build();
         try {
-            pocketRequest = mapper.readValue(readFileToString(fileName), PocketRequest.class);
+            pocketRequest = mapper.readValue(readFileToString(fileName), ImmutablePocketRequest.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,10 +45,18 @@ public class TestFixtures {
         return pocketRequest;
     }
     
-    private static PocketResponse buildPocketResponse(String fileName) {
-        PocketResponse pocketResponse = ImmutablePocketResponse.builder().build();
+    private static ImmutablePocketResponse buildPocketResponse(String fileName) {
+        // also not ideal
+        ImmutablePocketResponse pocketResponse = ImmutablePocketResponse
+                .builder()
+                .complete(0)
+                .list(new HashMap<String, PocketItem>(){
+                    { put("dummy", ImmutablePocketItem.builder().build()); }
+                })
+                .status(0)
+                .build();
         try {
-            pocketResponse = mapper.readValue(readFileToString(fileName), PocketResponse.class);
+            pocketResponse = mapper.readValue(readFileToString(fileName), ImmutablePocketResponse.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
