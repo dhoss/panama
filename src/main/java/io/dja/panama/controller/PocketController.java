@@ -37,13 +37,14 @@ public class PocketController {
     @GetMapping(path = "/pocket")
     public ResponseEntity<PocketResponse> retrievePocketSaves() {
         return new ResponseEntity<PocketResponse>(
-                this.pocketRetriever.retrieve(ImmutablePocketRequest
-                        .builder()
-                        .accessToken(accessToken)
-                        .consumerKey(consumerKey)
-                        .count(10)
-                        .detailType("simple")
-                        .build()),
+                this.pocketRetriever.retrieve(
+                        ImmutablePocketRequest
+                                .builder()
+                                .accessToken(accessToken)
+                                .consumerKey(consumerKey)
+                                .count(10)
+                                .detailType("simple")
+                                .build()),
                 HttpStatus.OK);
     }
     
@@ -53,6 +54,6 @@ public class PocketController {
                 ex.getRawStatusCode(), ex.getResponseBodyAsString(), ex.getHeaders(), ex);
         return ResponseEntity
                 .status(ex.getRawStatusCode())
-                .body("***** KEYS access " + accessToken + " consumer " + consumerKey);
+                .body(ex.getResponseBodyAsString());
     }
 }
