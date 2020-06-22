@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class PocketRetrievable implements Retrievable<PocketRequest, PocketResponse> {
+    
     Logger logger = LoggerFactory.getLogger(Config.class);
     @Value("${pocket.baseUrl}")
     private String baseUrl;
