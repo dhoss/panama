@@ -14,9 +14,6 @@ public class PocketRetriever extends Retriever<ImmutablePocketRequest, Immutable
     }
     
     public ImmutablePocketResponse retrieve(ImmutablePocketRequest request) {
-        System.out.println("**** INSIDE RETRIEVE");
-        ImmutablePocketResponse immutablePocketResponse = pocketRetrievable.get(request);
-        System.out.println("**** RESPONSE RETRIEVE" + immutablePocketResponse);
-        return immutablePocketResponse;
+        return pocketRetrievable.get(request);
     }
 }

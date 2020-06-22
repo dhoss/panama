@@ -2,9 +2,7 @@ package io.dja.panama.controller;
 
 import io.dja.panama.aggregator.ImmutablePocketRequest;
 import io.dja.panama.aggregator.ImmutablePocketResponse;
-import io.dja.panama.aggregator.PocketResponse;
 import io.dja.panama.aggregator.PocketRetriever;
-import io.dja.panama.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,7 @@ public class PocketController {
     
     @GetMapping(path = "/pocket")
     public ResponseEntity<ImmutablePocketResponse> retrievePocketSaves() {
-        return new ResponseEntity<ImmutablePocketResponse>(
+        return new ResponseEntity<>(
                 this.pocketRetriever.retrieve(
                         ImmutablePocketRequest
                                 .builder()
