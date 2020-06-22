@@ -30,7 +30,7 @@ public class Config {
     public ObjectMapper objectMapper() {
         return new ObjectMapper()
                 .findAndRegisterModules()
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     }
     
     @Bean

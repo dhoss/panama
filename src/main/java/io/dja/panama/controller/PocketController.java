@@ -1,6 +1,7 @@
 package io.dja.panama.controller;
 
 import io.dja.panama.aggregator.ImmutablePocketRequest;
+import io.dja.panama.aggregator.ImmutablePocketResponse;
 import io.dja.panama.aggregator.PocketResponse;
 import io.dja.panama.aggregator.PocketRetriever;
 import io.dja.panama.config.Config;
@@ -19,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @RestController
 @RequestMapping("/v1")
 public class PocketController {
-    Logger logger = LoggerFactory.getLogger(Config.class);
+    Logger logger = LoggerFactory.getLogger(PocketController.class);
     @Value("${pocket.accessToken}")
     private String accessToken;
     
@@ -35,8 +36,8 @@ public class PocketController {
     }
     
     @GetMapping(path = "/pocket")
-    public ResponseEntity<PocketResponse> retrievePocketSaves() {
-        return new ResponseEntity<PocketResponse>(
+    public ResponseEntity<ImmutablePocketResponse> retrievePocketSaves() {
+        return new ResponseEntity<ImmutablePocketResponse>(
                 this.pocketRetriever.retrieve(
                         ImmutablePocketRequest
                                 .builder()

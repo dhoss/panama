@@ -1,8 +1,5 @@
 package io.dja.panama.aggregator;
 
-import io.dja.panama.config.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -11,9 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
-public class PocketRetrievable implements Retrievable<PocketRequest, PocketResponse> {
-    
-    Logger logger = LoggerFactory.getLogger(Config.class);
+public class PocketRetrievable implements Retrievable<ImmutablePocketRequest, ImmutablePocketResponse> {
     
     @Value("${pocket.baseUrl}")
     private String baseUrl;
@@ -28,13 +23,14 @@ public class PocketRetrievable implements Retrievable<PocketRequest, PocketRespo
         this.webclient = webClient;
     }
     
-    public PocketResponse get(PocketRequest request) {
+    public ImmutablePocketResponse get(ImmutablePocketRequest request) {
+        System.out.println("**** BASE URL IN RETRIEVABLE "+ baseUrl);
         return this.webclient.post()
                 .uri(baseUrl + "/get")
                 .contentType(contentType)
-                .body(Mono.just(request), PocketRequest.class)
+                .body(Mono.just(request), ImmutablePocketRequest.class)
                 .retrieve()
-                .bodyToMono(PocketResponse.class)
+                .bodyToMono(ImmutablePocketResponse.class)
                 .block();
     }
 }

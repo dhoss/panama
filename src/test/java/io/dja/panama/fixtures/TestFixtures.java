@@ -1,83 +1,57 @@
 package io.dja.panama.fixtures;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.dja.panama.aggregator.ImmutablePocketItem;
 import io.dja.panama.aggregator.ImmutablePocketRequest;
 import io.dja.panama.aggregator.ImmutablePocketResponse;
-import io.dja.panama.aggregator.PocketItem;
-import io.dja.panama.aggregator.PocketRequest;
-import io.dja.panama.aggregator.PocketResponse;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 public class TestFixtures {
     
-    public static ImmutablePocketRequest POCKET_REQUEST =
-            buildPocketRequest("pocket-request.json");
-    public static ImmutablePocketResponse POCKET_RESPONSE =
-            buildPocketResponse("pocket-response.json");
-    
-    public static String RAW_RESPONSE_JSON = readFileToString("pocket-response.json");
-    
+    private static Logger logger = LoggerFactory.getLogger(TestFixtures.class);
     private static final ObjectMapper mapper =
-            new ObjectMapper().findAndRegisterModules();
-   
+            new ObjectMapper();//.findAndRegisterModules();
+    
+    static {
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).findAndRegisterModules();
+    }
     
     // TODO: make this generic somehow
-    private static ImmutablePocketRequest buildPocketRequest(String fileName) {
-        // not ideal
-        ImmutablePocketRequest pocketRequest = ImmutablePocketRequest
-                .builder()
-                .accessToken("")
-                .consumerKey("")
-                .count(0)
-                .detailType("")
-                .build();
-        try {
-            pocketRequest = mapper.readValue(readFileToString(fileName), ImmutablePocketRequest.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static ImmutablePocketRequest buildPocketRequest(String json) throws IOException {
+        json = "{\n" +
+                "  \"consumer_key\": \"abcdef\",\n" +
+                "  \"access_token\": \"fdsa\",\n" +
+                "  \"count\": \"14\",\n" +
+                "  \"detailType\": \"complete\"\n" +
+                "}";
+        logger.info("INSIDE BUILDPOCKET REQUEST");
+        System.out.println("INSIDE BUILDPOCKET");
+        ImmutablePocketRequest immutablePocketRequest = mapper.readValue(json, ImmutablePocketRequest.class);
         
-        return pocketRequest;
+        return immutablePocketRequest;
     }
     
-    private static ImmutablePocketResponse buildPocketResponse(String fileName) {
-        // also not ideal
-        ImmutablePocketResponse pocketResponse = ImmutablePocketResponse
-                .builder()
-                .complete(0)
-                .list(new HashMap<String, PocketItem>(){
-                    { put("dummy", ImmutablePocketItem.builder().build()); }
-                })
-                .status(0)
-                .build();
-        try {
-            pocketResponse = mapper.readValue(readFileToString(fileName), ImmutablePocketResponse.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return pocketResponse;
+    public static ImmutablePocketResponse buildPocketResponse(String json) throws IOException {
+        logger.info("INSIDE BUILDPOCKET RESPONSE");
+        return mapper.readValue(json, ImmutablePocketResponse.class);
     }
     
-    private static String readFileToString(String fileName){
-        String json = "";
-        try {
-            new String(
-                    Files.readAllBytes(
-                            Paths.get(
-                                    TestFixtures.class
-                                            .getClassLoader()
-                                            .getResource(fileName)
-                                            .getPath())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return json;
+    public static String readFileToString(String fileName) throws IOException {
+        return new String(
+                Files.readAllBytes(
+                        Paths.get(
+                                TestFixtures.class
+                                        .getClassLoader()
+                                        .getResource(fileName)
+                                        .getPath())));
     }
 }

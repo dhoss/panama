@@ -4,17 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PocketRetriever extends Retriever<PocketRequest, PocketResponse> {
-    
+public class PocketRetriever extends Retriever<ImmutablePocketRequest, ImmutablePocketResponse> {
+   
     @Autowired
-    private Retrievable<PocketRequest, PocketResponse> pocketRetrievable;
+    private Retrievable<ImmutablePocketRequest, ImmutablePocketResponse> pocketRetrievable;
     
-    @Autowired
-    public PocketRetriever(Retrievable<PocketRequest, PocketResponse> retrievable) {
-        super(retrievable);
+    public PocketRetriever(Retrievable<ImmutablePocketRequest, ImmutablePocketResponse> retrievable) {
+        this.pocketRetrievable = retrievable;
     }
     
-    public PocketResponse retrieve(PocketRequest request) {
-        return this.pocketRetrievable.get(request);
+    public ImmutablePocketResponse retrieve(ImmutablePocketRequest request) {
+        System.out.println("**** INSIDE RETRIEVE");
+        ImmutablePocketResponse immutablePocketResponse = pocketRetrievable.get(request);
+        System.out.println("**** RESPONSE RETRIEVE" + immutablePocketResponse);
+        return immutablePocketResponse;
     }
 }
