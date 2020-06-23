@@ -24,7 +24,6 @@ public class PocketRetrievable implements Retrievable<ImmutablePocketRequest, Im
     }
     
     public ImmutablePocketResponse get(ImmutablePocketRequest request) {
-        System.out.println("**** BASE URL IN RETRIEVABLE "+ baseUrl);
         return this.webclient.post()
                 .uri(baseUrl + "/get")
                 .contentType(contentType)
