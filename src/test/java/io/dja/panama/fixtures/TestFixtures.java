@@ -2,8 +2,8 @@ package io.dja.panama.fixtures;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.dja.panama.aggregator.ImmutablePocketRequest;
-import io.dja.panama.aggregator.ImmutablePocketResponse;
+import io.dja.panama.aggregator.pocket.ImmutablePocketRequest;
+import io.dja.panama.aggregator.pocket.ImmutablePocketResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

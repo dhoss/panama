@@ -1,8 +1,5 @@
-package io.dja.panama;
+package io.dja.panama.aggregator.pocket;
 
-import io.dja.panama.aggregator.ImmutablePocketRequest;
-import io.dja.panama.aggregator.ImmutablePocketResponse;
-import io.dja.panama.aggregator.PocketRetriever;
 import io.dja.panama.aggregator.Retrievable;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

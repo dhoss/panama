@@ -1,5 +1,6 @@
-package io.dja.panama.aggregator;
+package io.dja.panama.aggregator.pocket;
 
+import io.dja.panama.aggregator.Retrievable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

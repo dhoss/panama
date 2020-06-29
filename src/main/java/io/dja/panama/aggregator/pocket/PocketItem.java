@@ -1,4 +1,4 @@
-package io.dja.panama.aggregator;
+package io.dja.panama.aggregator.pocket;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
