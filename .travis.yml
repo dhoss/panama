@@ -17,7 +17,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 after_script:
-  - ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --exit-code $TRAVIS_TEST_RESULT -t jacoco
+  - ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml -t jacoco
   - ./cc-test-reporter upload-coverage
 
 after_success:
